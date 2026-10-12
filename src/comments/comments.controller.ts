@@ -1,0 +1,3 @@
+import { Controller, Get, Query, Patch, Param, Delete } from '@nestjs/common';
+import { CommentsService } from './comments.service';
+@Controller('comments') export class CommentsController { constructor(private service: CommentsService) {} @Get() list(@Query('trackId') trackId: string) { return this.service.list(trackId); } @Patch(':id/hide') hide(@Param('id') id: string, @Query('moderatorId') moderatorId: string) { return this.service.hide(id, moderatorId); } @Patch(':id/restore') restore(@Param('id') id: string) { return this.service.restore(id); } @Delete(':id') softDelete(@Param('id') id: string, @Query('moderatorId') moderatorId: string) { return this.service.softDelete(id, moderatorId); } }

@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  trackId   String
+  authorId  String
+  text      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  hiddenAt  DateTime?
+  hiddenBy  String?
+  deletedAt DateTime?
+  deletedBy String?
+
+  @@index([trackId, createdAt], map: "Comment_trackId_createdAt_idx")
+  @@index([authorId, createdAt], map: "Comment_authorId_createdAt_idx")
+  @@index([hiddenAt, deletedAt, createdAt], map: "Comment_visibility_createdAt_idx")
+}
